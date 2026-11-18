@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 warnings.filterwarnings("ignore")
 
 import config
-from src import analysis, attribution, backtest, charts, data, factors, portfolio, report_docx, risk
+from src import analysis, attribution, backtest, charts, data, factors, portfolio, risk
 
 
 def _fmt(x):
@@ -27,7 +27,7 @@ def _fmt(x):
 
 
 def main():
-    print("[1/9] 载入数据 ...")
+    print("[1/8] 载入数据 ...")
     bench = data.load_benchmark()
     calendar = bench["date"].tolist()
     hist = data.load_constituents()
@@ -63,14 +63,14 @@ def main():
         config.LIVE_END)
     print(f"    回测期数 {len(pairs_bt)}，2026样本外期数 {len(pairs_2026)}")
 
-    print("[2/9] 因子有效性检验 ...")
+    print("[2/8] 因子有效性检验 ...")
     # 用 2018-2025 做因子检验，2026 单列
     panel_bt = panel[panel["date"] <= pd.Timestamp(config.BACKTEST_END)]
     ana_bt = analysis.save_analysis(panel_bt)
     print(ana_bt["ic_summary"][ana_bt["ic_summary"]["period"] == "全样本"]
           [["name", "mean_ic", "icir", "t_stat"]].round(3).to_string(index=False))
 
-    print("[3/9] 回测基准模型与研究模型 ...")
+    print("[3/8] 回测基准模型与研究模型 ...")
     backtests = {}
     for model in ["baseline", "research"]:
         sel, hold = portfolio.select_portfolios(
@@ -86,7 +86,7 @@ def main():
               f"夏普 {m['夏普比率']:.3f}  最大回撤 {m['最大回撤']*100:.2f}%  "
               f"超额 {m['年化超额收益']*100:.2f}%")
 
-    print("[4/9] 产品实施版（单一行业≤10只）...")
+    print("[4/8] 产品实施版（单一行业≤10只）...")
     sel_p, hold_p = portfolio.select_portfolios(
         panel, pairs_bt, model="research", industry_cap=10)
     res_p, turn_p, hlog_p = backtest.run_backtest(
@@ -146,7 +146,7 @@ def main():
     stress.to_csv(config.TABLE_DIR / "stress.csv", index=False, encoding="utf-8-sig")
 
     # ---------- 归因 ----------
-    print("[5/9] 收益归因与风险分析 ...")
+    print("[5/8] 收益归因与风险分析 ...")
     hold_r = backtests["research"]["holdings"]
     turn_r = backtests["research"]["turnover"]
     fr, fs, resid = attribution.fama_macbeth(panel_bt)
@@ -169,7 +169,7 @@ def main():
     risk_dec.to_csv(config.TABLE_DIR / "risk_decomposition.csv", index=False, encoding="utf-8-sig")
 
     # ---------- 产品分析 ----------
-    print("[6/9] 容量与费率分析 ...")
+    print("[6/8] 容量与费率分析 ...")
     cap = risk.capacity_analysis(hold_p, amount_panel)
     cap.to_csv(config.TABLE_DIR / "capacity.csv", index=False, encoding="utf-8-sig")
     fee = risk.fee_scenarios(m_p["年化收益"], m_p["基准年化收益"], m_p["年化波动"])
@@ -192,7 +192,7 @@ def main():
     sens.to_csv(config.TABLE_DIR / "sensitivity.csv", index=False, encoding="utf-8-sig")
 
     # ---------- 2026 样本外 ----------
-    print("[7/9] 2026 年样本外模拟 ...")
+    print("[7/8] 2026 年样本外模拟 ...")
     oos = {}
     for model, cap_n in [("baseline", None), ("research", None), ("research", 10)]:
         key = f"{model}_{'cap10' if cap_n else 'free'}"
@@ -239,7 +239,7 @@ def main():
         hold_live = pd.DataFrame()
 
     # ---------- 图表 ----------
-    print("[8/9] 生成图表 ...")
+    print("[8/8] 生成图表 ...")
     bench_res = pd.DataFrame(index=backtests["research"]["result"].index)
     bench_res["nav"] = backtests["research"]["result"]["bm_nav"]
     charts.plot_nav({
@@ -285,9 +285,6 @@ def main():
     with open(config.TABLE_DIR / "info.json", "w", encoding="utf-8") as f:
         json.dump(info, f, ensure_ascii=False, indent=2)
 
-    # ---------- 报告 ----------
-    print("[9/9] 生成 Word 技术报告 ...")
-    report_docx.build_report()
     print("完成。输出目录：", config.OUTPUT_DIR)
 
 

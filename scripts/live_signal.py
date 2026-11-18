@@ -68,7 +68,7 @@ def main():
         f"- 持仓数量：{len(hold)} 只，等权",
         f"- 业绩基准：{config.BENCHMARK_NAME}",
         "- 调仓规则：每月最后一个交易日生成信号，下一交易日收盘调仓",
-        "- 组合链接（创建后替换）：" + config.XUEQIU_LINK,
+        "- 组合链接：https://xueqiu.com/P/ZH3689226",
         "",
         "## 最新持仓",
         "",
@@ -82,16 +82,14 @@ def main():
             f"{r['weight']*100:.2f}% | {r['score']:.3f} |")
     lines += [
         "",
-        "## 雪球创建步骤",
+        "## 组合维护",
         "",
-        "1. 登录雪球网（xueqiu.com），进入“模拟组合”→“创建组合”。",
-        f"2. 组合名称填写“{config.PRODUCT_NAME}”，组合类型选择“公开”，基准选择沪深300。",
-        f"3. 按上表30只股票等权买入（每只约3.33%），记录建仓日期为 {exec_date}。",
-        "4. 每月最后一个交易日收盘后运行 `python scripts/live_signal.py`，",
+        f"1. 组合名称：{config.PRODUCT_NAME}，公开组合，基准沪深300。",
+        f"2. 按上表 {len(hold)} 只股票等权建仓，建仓日期 {exec_date}。",
+        "3. 每月最后一个交易日收盘后运行 `python scripts/live_signal.py`，",
         "   按新的 `output/live/holdings_latest.csv` 在下一交易日调仓。",
-        "5. 将组合链接填入 `config.py` 的 `XUEQIU_LINK`，并更新报告封面。",
         "",
-        "> 模拟组合仅用于课程研究与策略跟踪，不构成投资建议。",
+        "> 模拟组合仅用于策略跟踪，不构成投资建议。",
     ]
     md = config.LIVE_DIR / "xueqiu_portfolio.md"
     md.write_text("\n".join(lines), encoding="utf-8")

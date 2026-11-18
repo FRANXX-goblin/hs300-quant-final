@@ -6,10 +6,9 @@ CACHE_DIR = DATA_DIR / "cache"
 OUTPUT_DIR = BASE_DIR / "output"
 TABLE_DIR = OUTPUT_DIR / "tables"
 FIG_DIR = OUTPUT_DIR / "figures"
-REPORT_DIR = OUTPUT_DIR / "report"
 LIVE_DIR = OUTPUT_DIR / "live"
 
-for p in (DATA_DIR, CACHE_DIR, OUTPUT_DIR, TABLE_DIR, FIG_DIR, REPORT_DIR, LIVE_DIR):
+for p in (DATA_DIR, CACHE_DIR, OUTPUT_DIR, TABLE_DIR, FIG_DIR, LIVE_DIR):
     p.mkdir(parents=True, exist_ok=True)
 
 DATA_START = "2017-01-01"
@@ -70,11 +69,3 @@ MODEL_NAMES = {
 PRODUCT_NAME = "沪深300低风险增强一号"
 PRODUCT_ROLE = "私募证券投资基金（量化多头）"
 BENCHMARK_NAME = "沪深300全收益指数（H00300）"
-
-# 请提交前替换为真实信息
-MEMBERS = [
-    {"name": "李嘉铭", "sid": "2023101386", "role": "模型构建、代码编写、文档编写"},
-    {"name": "王硕", "sid": "2023103416", "role": "模型构建、代码编写、文档编写"},
-]
-GITHUB_LINK = "https://github.com/FRANXX-goblin/hs300-quant-final.git"
-XUEQIU_LINK = "https://www.xueqiu.com/P/ZH3689226"
