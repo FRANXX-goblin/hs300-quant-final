@@ -63,8 +63,8 @@ def main():
         f"# 雪球模拟组合：{config.PRODUCT_NAME}",
         "",
         f"- 股票池：沪深300历史成分股（2026年冻结2025-11-28名单）",
-        f"- 最新信号日：{sig_date}",
-        f"- 建议建仓/调仓日：{exec_date}",
+        f"- 信号日：{sig_date}",
+        f"- 执行日：{exec_date}",
         f"- 持仓数量：{len(hold)} 只，等权",
         f"- 业绩基准：{config.BENCHMARK_NAME}",
         "- 调仓规则：每月最后一个交易日生成信号，下一交易日收盘调仓",
@@ -81,13 +81,6 @@ def main():
             f"| {int(r['rank'])} | {r['code6']} | {nm} | {r['industry']} | "
             f"{r['weight']*100:.2f}% | {r['score']:.3f} |")
     lines += [
-        "",
-        "## 组合维护",
-        "",
-        f"1. 组合名称：{config.PRODUCT_NAME}，公开组合，基准沪深300。",
-        f"2. 按上表 {len(hold)} 只股票等权建仓，建仓日期 {exec_date}。",
-        "3. 每月最后一个交易日收盘后运行 `python scripts/live_signal.py`，",
-        "   按新的 `output/live/holdings_latest.csv` 在下一交易日调仓。",
         "",
         "> 模拟组合仅用于策略跟踪，不构成投资建议。",
     ]

@@ -9,3 +9,5 @@ output/
 *.log
 .env
 .DS_Store
+
+_notes/
