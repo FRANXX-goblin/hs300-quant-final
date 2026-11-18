@@ -76,5 +76,5 @@ MEMBERS = [
     {"name": "李嘉铭", "sid": "2023101386", "role": "模型构建、代码编写、文档编写"},
     {"name": "王硕", "sid": "2023103416", "role": "模型构建、代码编写、文档编写"},
 ]
-GITHUB_LINK = "https://github.com/yourname/hs300-quant-final"
-XUEQIU_LINK = "https://xueqiu.com/P/YOUR_PORTFOLIO"
+GITHUB_LINK = "https://github.com/FRANXX-goblin/hs300-quant-final.git"
+XUEQIU_LINK = "https://www.xueqiu.com/P/ZH3689226"
